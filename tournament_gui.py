@@ -36,11 +36,11 @@ class RoundFrame(tk.Frame):
             self.create_game_row(game_id, row=row+1)
 
     def create_game_row(self, game_id, row=1):
-        player1team1 = ttk.Combobox(self.frame, width=15, state="readonly")
+        player1team1 = ttk.Label(self.frame, width=15, state="readonly")
         player1team1.grid(row=row, column=0)
-        player2team1 = ttk.Combobox(self.frame, width=15, state="readonly", values=["SUB TODO"])
+        player2team1 = ttk.Label(self.frame, width=15, state="readonly")
         player2team1.grid(row=row, column=1)
-        player3team1 = ttk.Combobox(self.frame, width=15, state="readonly", values=["SUB TODO"])
+        player3team1 = ttk.Label(self.frame, width=15, state="readonly")
         player3team1.grid(row=row, column=2)
         goals_team1 = tk.Entry(self.frame, validate="all", validatecommand=(self.master.register(callback), "%P"), width=3)
         goals_team1.grid(row=row, column=3)
@@ -48,11 +48,11 @@ class RoundFrame(tk.Frame):
         center_label.grid(row=row, column=4)
         goals_team2 = tk.Entry(self.frame, validate="all", validatecommand=(self.master.register(callback), "%P"), width=3)
         goals_team2.grid(row=row, column=5)
-        player1team2 = ttk.Combobox(self.frame, width=15, state="readonly", values=["SUB TODO"])
+        player1team2 = ttk.Label(self.frame, width=15, state="readonly")
         player1team2.grid(row=row, column=6)
-        player2team2 = ttk.Combobox(self.frame, width=15, state="readonly", values=["SUB TODO"])
+        player2team2 = ttk.Label(self.frame, width=15, state="readonly")
         player2team2.grid(row=row, column=7)
-        player3team2 = ttk.Combobox(self.frame, width=15, state="readonly", values=["SUB TODO"])
+        player3team2 = ttk.Label(self.frame, width=15, state="readonly")
         player3team2.grid(row=row, column=8)
         applybutton = tk.Button(self.frame, text="Apply", width=8, command=partial(self.apply, row-1))
         applybutton.grid(row=row, column=9)
@@ -63,12 +63,12 @@ class RoundFrame(tk.Frame):
             goals_team1.insert(0, str(int(goals1)))
             goals_team2.insert(0, str(int(goals2)))
 
-        player1team1.set(self.tournament_data.get_name_of_player1(self.tournament_data.get_team1_id(game_id)))
-        player2team1.set(self.tournament_data.get_name_of_player2(self.tournament_data.get_team1_id(game_id)))
-        player3team1.set(self.tournament_data.get_name_of_player3(self.tournament_data.get_team1_id(game_id)))
-        player1team2.set(self.tournament_data.get_name_of_player1(self.tournament_data.get_team2_id(game_id)))
-        player2team2.set(self.tournament_data.get_name_of_player2(self.tournament_data.get_team2_id(game_id)))
-        player3team2.set(self.tournament_data.get_name_of_player3(self.tournament_data.get_team2_id(game_id)))
+        player1team1['text'] = (self.tournament_data.get_name_of_player1(self.tournament_data.get_team1_id(game_id)))
+        player2team1['text'] = (self.tournament_data.get_name_of_player2(self.tournament_data.get_team1_id(game_id)))
+        player3team1['text'] = (self.tournament_data.get_name_of_player3(self.tournament_data.get_team1_id(game_id)))
+        player1team2['text'] = (self.tournament_data.get_name_of_player1(self.tournament_data.get_team2_id(game_id)))
+        player2team2['text'] = (self.tournament_data.get_name_of_player2(self.tournament_data.get_team2_id(game_id)))
+        player3team2['text'] = (self.tournament_data.get_name_of_player3(self.tournament_data.get_team2_id(game_id)))
 
         self.game_rows.append([player1team1, player2team1, player3team1,
                                goals_team1, goals_team2,
@@ -210,8 +210,6 @@ class RankFrame(ScrollFrame):
 class PlayerInformationFrame(tk.Frame):
     def __init__(self, master=None):
         super().__init__(master)
-        self.label = tk.Label(self, text="Player")
-        self.label.grid()
 
 
 class SchedulerGUI(tk.Tk):
@@ -239,10 +237,6 @@ class SchedulerGUI(tk.Tk):
         self.tool_bar_frame.pack(side="bottom")
         self.button_next_round = tk.Button(self.tool_bar_frame, text="Next Round", command=partial(self.next_round))
         self.button_next_round.grid(row=0, column=0)
-        self.button_new_player = tk.Button(self.tool_bar_frame, text="Add New Player")
-        self.button_new_player.grid(row=0, column=1)
-        #self.button = tk.Button(self.tool_bar_frame, text="Export Schedule", command=partial(printing, player_list, True))
-        #self.button.grid(row=0, column=2)
     
     def create_round_frame(self, round_num):
         round_frame = RoundFrame(self, self.tournament_data, round_num)
@@ -276,7 +270,6 @@ class SchedulerGUI(tk.Tk):
         
         if self.tournament_data.get_round_numbers() == 0:
             self.round_num = 0
-            self.next_round()
 
     def update(self):
         self.rank_frame.update()

@@ -1,0 +1,3 @@
+.tournaments.json
+*.csv
+__pycache__/

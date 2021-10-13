@@ -1,0 +1,7 @@
+[rating]
+win = 3
+tie = 2
+loss = 1
+
+[mode]
+mode = 'random'
