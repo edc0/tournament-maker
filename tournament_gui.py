@@ -42,11 +42,11 @@ class RoundFrame(tk.Frame):
         player2team1.grid(row=row, column=1)
         player3team1 = ttk.Label(self.frame, width=15, state="readonly")
         player3team1.grid(row=row, column=2)
-        goals_team1 = tk.Entry(self.frame, validate="all", validatecommand=(self.master.register(callback), "%P"), width=3)
+        goals_team1 = ttk.Entry(self.frame, validate="all", validatecommand=(self.master.register(callback), "%P"), width=3)
         goals_team1.grid(row=row, column=3)
-        center_label = tk.Label(self.frame, text=":", width=1)
+        center_label = ttk.Label(self.frame, text=":", width=1)
         center_label.grid(row=row, column=4)
-        goals_team2 = tk.Entry(self.frame, validate="all", validatecommand=(self.master.register(callback), "%P"), width=3)
+        goals_team2 = ttk.Entry(self.frame, validate="all", validatecommand=(self.master.register(callback), "%P"), width=3)
         goals_team2.grid(row=row, column=5)
         player1team2 = ttk.Label(self.frame, width=15, state="readonly")
         player1team2.grid(row=row, column=6)
@@ -54,7 +54,7 @@ class RoundFrame(tk.Frame):
         player2team2.grid(row=row, column=7)
         player3team2 = ttk.Label(self.frame, width=15, state="readonly")
         player3team2.grid(row=row, column=8)
-        applybutton = tk.Button(self.frame, text="Apply", width=8, command=partial(self.apply, row-1))
+        applybutton = ttk.Button(self.frame, text="Apply", width=8, command=partial(self.apply, row-1))
         applybutton.grid(row=row, column=9)
 
         # Loads goals of the game
@@ -156,24 +156,24 @@ class RankFrame(ScrollFrame):
         fcolor = "black" if player_activity["ACTIVE"] else "gray"
         var = tk.IntVar()
         row["var"] = var
-        row["in_schedule"] = tk.Checkbutton(self.viewPort, bg=color, variable=row["var"], command=partial(self.update_row, index, player_id))
+        row["in_schedule"] = ttk.Checkbutton(self.viewPort, bg=color, variable=row["var"], command=partial(self.update_row, index, player_id))
         row["in_schedule"].select() if bool(player_activity["ACTIVE"]) else row["in_schedule"].deselect()
         row["in_schedule"].grid(row=index+1, column=0)
-        row["rank"] = tk.Label(self.viewPort, anchor=tk.E, text=index+1, width=5, bg=color, fg=fcolor)
+        row["rank"] = ttk.Label(self.viewPort, anchor=tk.E, text=index+1, width=5, bg=color, fg=fcolor)
         row["rank"].grid(row=index+1,column=1)
-        row["name"] = tk.Label(self.viewPort, anchor=tk.W, text=ranking.loc[player_id]['PLAYER_NAME'], width=15, bg=color, fg=fcolor)
+        row["name"] = ttk.Label(self.viewPort, anchor=tk.W, text=ranking.loc[player_id]['PLAYER_NAME'], width=15, bg=color, fg=fcolor)
         row["name"].grid(row=index+1,column=2)
-        row["wins"] = tk.Label(self.viewPort, anchor=tk.E, text=ranking.loc[player_id]["WINS"], width=5, bg=color, fg=fcolor)
+        row["wins"] = ttk.Label(self.viewPort, anchor=tk.E, text=ranking.loc[player_id]["WINS"], width=5, bg=color, fg=fcolor)
         row["wins"].grid(row=index+1,column=3)
-        row["loss"] = tk.Label(self.viewPort, anchor=tk.E, text=ranking.loc[player_id]["LOSSES"], width=5, bg=color, fg=fcolor)
+        row["loss"] = ttk.Label(self.viewPort, anchor=tk.E, text=ranking.loc[player_id]["LOSSES"], width=5, bg=color, fg=fcolor)
         row["loss"].grid(row=index+1,column=4)
-        row["ties"] = tk.Label(self.viewPort, anchor=tk.E, text=ranking.loc[player_id]["TIES"], width=5, bg=color, fg=fcolor)
+        row["ties"] = ttk.Label(self.viewPort, anchor=tk.E, text=ranking.loc[player_id]["TIES"], width=5, bg=color, fg=fcolor)
         row["ties"].grid(row=index+1,column=5)
-        row["played_games"] = tk.Label(self.viewPort, anchor=tk.E, text=ranking.loc[player_id]["PLAYED_GAMES"], width=5, bg=color, fg=fcolor)
+        row["played_games"] = ttk.Label(self.viewPort, anchor=tk.E, text=ranking.loc[player_id]["PLAYED_GAMES"], width=5, bg=color, fg=fcolor)
         row["played_games"].grid(row=index+1,column=6)
-        row["goal_diff"] = tk.Label(self.viewPort, anchor=tk.E, text=ranking.loc[player_id]["GOALDIFF"], width=5, bg=color, fg=fcolor)
+        row["goal_diff"] = ttk.Label(self.viewPort, anchor=tk.E, text=ranking.loc[player_id]["GOALDIFF"], width=5, bg=color, fg=fcolor)
         row["goal_diff"].grid(row=index+1,column=7)
-        row["points"] = tk.Label(self.viewPort, anchor=tk.E, text=ranking.loc[player_id]["POINTS"], width=6, bg=color, fg=fcolor)
+        row["points"] = ttk.Label(self.viewPort, anchor=tk.E, text=ranking.loc[player_id]["POINTS"], width=6, bg=color, fg=fcolor)
         row["points"].grid(row=index+1,column=8)
         return row
 
@@ -235,7 +235,7 @@ class SchedulerGUI(tk.Tk):
 
         self.tool_bar_frame = tk.Frame(self.frame_left)
         self.tool_bar_frame.pack(side="bottom")
-        self.button_next_round = tk.Button(self.tool_bar_frame, text="Next Round", command=partial(self.next_round))
+        self.button_next_round = ttk.Button(self.tool_bar_frame, text="Next Round", command=partial(self.next_round))
         self.button_next_round.grid(row=0, column=0)
     
     def create_round_frame(self, round_num):
