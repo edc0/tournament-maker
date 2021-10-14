@@ -11,8 +11,8 @@ class TournamentLogic:
     def next_round(self, round_num):
         if round_num > 0 and not self.tournament_data.all_games_played(round_num-1):
             return
-        df_ranking = self.tournament_data.calculate_ranking()
         self.tournament_data.initialize_player_round_activity(round_num)
+        df_ranking = self.tournament_data.calculate_ranking()
         
         self.tournament_data.save_tournament()
         
@@ -32,15 +32,14 @@ class TournamentLogic:
             return self._get_new_teams_random(df_ranking, max_team_size=3)
         if mode == 'diviso-casuale':
             return self._get_new_teams_diviso_casuale(df_ranking, max_team_size=3)
-        raise Exception("Game mode not found!")
+        raise Exception(f"Game mode not found! mode={mode}")
 
 
     def _get_new_teams_random(self, df_ranking, max_team_size):
         player_num = len(df_ranking)
 
         subs_num = player_num % 6
-        team_num = player_num // 3 if subs_num == 0 else player_num // 3 + 1
-
+        team_num = player_num // 3 if subs_num == 0 else (player_num // 3 + 1 if player_num % 6 >= 3 else player_num // 3 + 2)
 
         df_ranking_sampled = df_ranking.sample(frac=1)
         

@@ -19,7 +19,7 @@ class TournamentData:
             [], columns=['ROUND_NUM', 'TEAM1_ID', 'TEAM2_ID', 'GOALS_TEAM1', 'GOALS_TEAM2'])
         self.df_players_activity = pd.DataFrame(
             [], columns=['ROUND_NUM', 'PLAYER_ID', 'ACTIVE'])
-        self.initialize_player_round_activity(0)
+        self.initialize_player_round_activity()
         self.save_tournament()
 
     def load_tournament(self):
@@ -47,14 +47,17 @@ class TournamentData:
     def save_players_activity(self):
         self.df_players_activity.to_csv(f"{self.path}/players_activity.csv")
 
-    def initialize_player_round_activity(self, round_num):
+    def initialize_player_round_activity(self, round_num = None):
         for player_id, _ in self.df_players.itertuples():
-            if round_num == 0:
-                activity = True
+            if round_num == None:
+                self.df_players_activity.loc[f"{player_id}R{0}"] = [
+                    0, player_id, True]
+            elif round_num == 0:
+                continue
             else:
                 activity = self.df_players_activity.loc[f"{player_id}R{round_num-1}"]["ACTIVE"]
-            self.df_players_activity.loc[f"{player_id}R{round_num}"] = [
-                round_num, player_id, activity]
+                self.df_players_activity.loc[f"{player_id}R{round_num}"] = [
+                    round_num, player_id, activity]
 
     def set_player_active(self, player_id, round_num):
         self.df_players_activity.loc[f"{player_id}R{round_num}"] = [
@@ -66,7 +69,7 @@ class TournamentData:
 
     def get_active_player_ids(self, round_num):
         df_active = self.df_players_activity.loc[self.df_players_activity["ROUND_NUM"] == round_num]
-        df_active = df_active.loc[self.df_players_activity["ACTIVE"] == True]
+        df_active = df_active.loc[df_active["ACTIVE"] == True]
         return df_active["PLAYER_ID"].tolist()
 
     def get_inactive_player_ids(self, round_num):
@@ -78,7 +81,6 @@ class TournamentData:
         return self.df_players_activity.loc[f"{player_id}R{round_num}"]
 
     def get_round_numbers(self):
-        print(self.df_games["ROUND_NUM"].nunique())
         return self.df_games["ROUND_NUM"].nunique()
 
     def add_player(self, player_name):
@@ -145,7 +147,6 @@ class TournamentData:
 
     def all_games_played(self, round_num):
         round_games = self.df_games.loc[self.df_games["ROUND_NUM"] == round_num]
-        print(round_games)
         if len(round_games) == 0:
             return False
         for game in round_games.itertuples():
