@@ -89,7 +89,7 @@ class RoundFrame(tk.Frame):
     def enable_row(self, row_index):
         row = self.game_rows[row_index]
         for item in row[:-2]:
-            item.config(state='readonly')
+            item.config(state='active')
         row[3].config(state='normal')
         row[4].config(state='normal')
         row[-2].config(text="Update", command=partial(self.disable_row, row_index))
