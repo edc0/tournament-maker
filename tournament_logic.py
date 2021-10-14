@@ -46,8 +46,8 @@ class TournamentLogic:
         teams = [[] for _ in range(team_num)]
         for player_i in range(player_num):
             teams[player_i%team_num].append(_get_row_id(df_ranking_sampled.iloc[[player_i]]))
-        for team_i, team in enumerate(teams):
-            if len(team) < max_team_size:
+        for team_i in range(len(teams)):
+            while len(teams[team_i]) < max_team_size:
                 teams[team_i].append(TournamentData.SUB)
         
         return teams
