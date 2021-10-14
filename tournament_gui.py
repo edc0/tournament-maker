@@ -242,7 +242,7 @@ class SchedulerGUI(tk.Tk):
         round_frame = RoundFrame(self, self.tournament_data, round_num)
         self.notebook_round_frames.append(round_frame)
 
-        self.notebook.add(round_frame, text=f"Round {round_num+1}")
+        self.notebook.add(round_frame, text=f"{round_num+1}")
         self.notebook.select(round_frame)
         self.notebook.enable_traversal()
 
