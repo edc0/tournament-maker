@@ -1,0 +1,3 @@
+pandas>=1.5.3
+toml>=0.10.2
+functools==0.5
