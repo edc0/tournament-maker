@@ -36,7 +36,7 @@ jobs:
           standalone: true
           enable-plugins: tk-inter
       
-      - name: Rename artifact
+      - name: Rename Artifact
         shell: cmd
         working-directory: ${{github.workspace}}/build
         run: move "main.exe" "tournament-maker.exe"
@@ -45,5 +45,5 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
-          name: exe
+          name: tournament-maker-windows
           path: build/tournament-maker.exe
