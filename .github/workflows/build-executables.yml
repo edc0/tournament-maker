@@ -48,9 +48,13 @@ jobs:
         working-directory: ${{github.workspace}}/build
         run: move "main.exe" "tournament-maker.exe"
 
+      - name: Add Configuration file
+        shell: cmd
+        working-directory: ${{github.workspace}}/build
+        run: copy "..\config.toml" "config.toml"
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: tournament-maker-windows
-          path: build/tournament-maker.exe
+          path: build/*
