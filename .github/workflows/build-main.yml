@@ -31,7 +31,7 @@ jobs:
 
     - name: Build executable
       run: |
-        pyinstaller --name tournamentMaker --onefile --add-data "resources;resources" main.py
+        pyinstaller --name tournamentMaker --onefile --add-data "resources:resources" main.py
 
     - name: Create Release
       id: create_release
