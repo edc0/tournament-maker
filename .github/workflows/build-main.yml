@@ -56,6 +56,7 @@ jobs:
         asset_path: dist/tournamentMaker
         asset_name: |
           myapp-${{ matrix.os }}-${{ matrix.python-version }}${{ matrix.os == 'windows-latest' && '.exe' || matrix.os == 'ubuntu-latest' && '.AppImage' || matrix.os == 'macos-latest' && '.dmg' }}
+        asset_content_type: ${{ matrix.os == 'windows-latest' && 'application/x-msdownload' || matrix.os == 'ubuntu-latest' && 'application/x-iso9660-image' || matrix.os == 'macos-latest' && 'application/x-diskcopy' }}
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
