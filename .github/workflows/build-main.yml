@@ -54,7 +54,8 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: dist/tournamentMaker
-        asset_name: myapp-${{ matrix.os }}-${{ matrix.python-version }}.exe
+        asset_name: |
+          myapp-${{ matrix.os }}-${{ matrix.python-version }}-${{ if eq(matrix.os, 'windows-latest') }}.exe${{ else }}.AppImage${{ if eq(matrix.os, 'macos-latest') }}.dmg${{ end }}
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
