@@ -18,7 +18,7 @@ class LoadUI(tk.Tk):
             os.makedirs(PATH)
 
         if not os.path.exists(CONFIG_FILE):
-            config = "[rating]\nwin = 3\ntie = 2\nloss = 1\n\n[mode]\nmode = 'random' # or 'abc'"
+            config = "[rating]\nwin = 3\ntie = 1\nloss = 0\n\n[mode]\nmode = 'random' # or 'abc'"
             with open(CONFIG_FILE, "w") as file:
                 file.write(config)
                 file.close()

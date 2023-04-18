@@ -1,7 +1,7 @@
 [rating]
 win = 3
-tie = 2
-loss = 1
+tie = 1
+loss = 0
 
 [mode]
-mode = 'random'
+mode = 'random' # or 'abc'
