@@ -2,6 +2,8 @@ import pandas as pd
 import os
 import math
 import toml
+from appdirs import *
+from loadui import CONFIG_FILE
 
 class TournamentData:
     SUB = -1
@@ -9,7 +11,7 @@ class TournamentData:
     def __init__(self, path, player_list=[]):
         self.path = path
         self._load_or_new_tournament(player_list)
-        self.config = toml.load("config.toml")
+        self.config = toml.load(CONFIG_FILE)
 
     def new_tournament(self, player_list):
         self.df_players = pd.DataFrame(player_list, columns=['PLAYER_NAME'])

@@ -1,12 +1,12 @@
 from tournament_data import TournamentData
-import random
-import os
 import toml
+
+from loadui import CONFIG_FILE
 
 class TournamentLogic:
     def __init__(self, tournament_data: TournamentData):
         self.tournament_data = tournament_data
-        self.config = toml.load("config.toml")
+        self.config = toml.load(CONFIG_FILE)
 
     def next_round(self, round_num):
         if round_num > 0 and not self.tournament_data.all_games_played(round_num-1):
@@ -30,7 +30,7 @@ class TournamentLogic:
     def _get_new_teams(self, df_ranking, mode, max_team_size=3):
         if mode == 'random':
             return self._get_new_teams_random(df_ranking, max_team_size=3)
-        if mode == 'diviso-casuale':
+        if mode == 'abc':
             return self._get_new_teams_diviso_casuale(df_ranking, max_team_size=3)
         raise Exception(f"Game mode not found! mode={mode}")
 

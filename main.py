@@ -1,7 +1,3 @@
-import json
-import os
-from tkinter import filedialog
-
 from tournament_gui import SchedulerGUI
 from tournament_data import TournamentData
 from tournament_logic import TournamentLogic
@@ -16,7 +12,7 @@ def main(schedule_name, tournament_dict):
                       tournament_data=data)
     ui.mainloop()
 
-if __name__ == "__main__":    
-    load_ui = LoadUI(".tournaments.json", command=main)
+if __name__ == "__main__":
+    load_ui = LoadUI(command=main)
     load_ui.mainloop()
   
