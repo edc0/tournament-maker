@@ -32,8 +32,36 @@ class RoundFrame(tk.Frame):
     def create_widgets(self, game_ids):
         self.frame = tk.Frame(self)
         self.frame.grid(row=0)
+        self.create_game_header()                           
         for row, game_id in enumerate(game_ids):
-            self.create_game_row(game_id, row=row+1)
+            self.create_game_row(game_id, row=row+1)        
+
+    def create_game_header(self):
+        """
+        Like create_game_row, but just withe text
+        """
+        player1team1 = tk.Label(self.frame, width=15)
+        player1team1.grid(row=0, column=0)
+        player2team1 = tk.Label(self.frame, width=15)
+        player2team1.grid(row=0, column=1)
+        player3team1 = tk.Label(self.frame, width=15)
+        player3team1.grid(row=0, column=2)
+        center_label = tk.Label(self.frame, text=":", width=1)
+        center_label.grid(row=0, column=4)
+        player1team2 = tk.Label(self.frame, width=15)
+        player1team2.grid(row=0, column=6)
+        player2team2 = tk.Label(self.frame, width=15)
+        player2team2.grid(row=0, column=7)
+        player3team2 = tk.Label(self.frame, width=15)
+        player3team2.grid(row=0, column=8)
+
+        player1team1['text'] =  "A"
+        player2team1['text'] =  "B"
+        player3team1['text'] =  "C"
+        player1team2['text'] =  "A"
+        player2team2['text'] =  "B"
+        player3team2['text'] =  "C"
+
 
     def create_game_row(self, game_id, row=1):
         player1team1 = tk.Label(self.frame, width=15)

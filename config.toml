@@ -4,4 +4,4 @@ tie = 1
 loss = 0
 
 [mode]
-mode = 'random' # or 'abc'
+mode = 'abc'

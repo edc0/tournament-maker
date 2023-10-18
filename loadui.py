@@ -8,6 +8,7 @@ from appdirs import *
 
 APP_NAME = "BikepoloApp"
 PATH = user_data_dir(APP_NAME)
+print(f"using {PATH} as data storage dir!! all the relevant files are there.")
 TOURNAMENTS_FILE = os.path.join(PATH, "tournaments.json")
 CONFIG_FILE = os.path.join(PATH, "config.toml")
 
@@ -18,10 +19,13 @@ class LoadUI(tk.Tk):
             os.makedirs(PATH)
 
         if not os.path.exists(CONFIG_FILE):
+            print("did not find config file")
             config = "[rating]\nwin = 3\ntie = 1\nloss = 0\n\n[mode]\nmode = 'random' # or 'abc'"
             with open(CONFIG_FILE, "w") as file:
                 file.write(config)
                 file.close()
+        else:
+            print("config file found. loading.")
 
         self.command = command
         self.initialize()
@@ -87,9 +91,12 @@ class LoadUI(tk.Tk):
         name = str(self.entry.get())
         path = f"{os.getcwd()}/{name}"
         path = path if not os.path.exists(path) else f"{path}_new"
-        player_list = pandas.read_csv(self.player_path.get(), header=None)
-        player_list = player_list[0].to_list()
-        self.tournament_dict[name] = {"path": path, "player_list": player_list}
+        player_list_raw = pandas.read_csv(self.player_path.get(), header=None)
+        print("PLAYER LIST:")
+        print(player_list_raw)
+        player_list = player_list_raw[0].to_list()
+        initial_rank = player_list_raw[1].to_list()
+        self.tournament_dict[name] = {"path": path, "player_list": player_list, "initial_rank": initial_rank}
         with open(TOURNAMENTS_FILE, 'w') as outfile:
             json.dump(self.tournament_dict, outfile)
         self.destroy_new_tournament_widgets()

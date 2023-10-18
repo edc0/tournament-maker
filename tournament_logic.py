@@ -3,10 +3,16 @@ import toml
 
 from loadui import CONFIG_FILE
 
+INITIAL_RANK_WEIGHT = 0.122
+
 class TournamentLogic:
     def __init__(self, tournament_data: TournamentData):
         self.tournament_data = tournament_data
+        print(self.tournament_data)
         self.config = toml.load(CONFIG_FILE)
+        print("Initializing with following config:")
+        print(self.config)
+        print("====")
 
     def next_round(self, round_num):
         if round_num > 0 and not self.tournament_data.all_games_played(round_num-1):
@@ -28,6 +34,7 @@ class TournamentLogic:
             self.tournament_data.add_game(int(round_num), int(team1_id), int(team2_id))
 
     def _get_new_teams(self, df_ranking, mode, max_team_size=3):
+        print(df_ranking)
         if mode == 'random':
             return self._get_new_teams_random(df_ranking, max_team_size=3)
         if mode == 'abc':
@@ -68,6 +75,11 @@ class TournamentLogic:
         else:
             third = player_num//3
 
+        # re-sorts ranking with initial ranking
+        df_ranking["HIDDEN"] = df_ranking["POINTS"] + INITIAL_RANK_WEIGHT * df_ranking["INITIAL"]
+        df_ranking = df_ranking.sort_values(by = ["HIDDEN", 'GOALDIFF', 'PLAYED_GAMES', 'WINS'], ascending=[False, False, True, False])
+        print("RANKING WITH INITIAL CONDITIONS:")
+        print(df_ranking)
 
         first_group = df_ranking.iloc[:third]
         second_group = df_ranking.iloc[third:-third]

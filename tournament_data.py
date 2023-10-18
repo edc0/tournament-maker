@@ -8,13 +8,14 @@ from loadui import CONFIG_FILE
 class TournamentData:
     SUB = -1
 
-    def __init__(self, path, player_list=[]):
+    def __init__(self, path, player_list=[], initial_rank=[]):
         self.path = path
-        self._load_or_new_tournament(player_list)
+        self._load_or_new_tournament(player_list, initial_rank)
         self.config = toml.load(CONFIG_FILE)
 
-    def new_tournament(self, player_list):
-        self.df_players = pd.DataFrame(player_list, columns=['PLAYER_NAME'])
+    def new_tournament(self, player_list, initial_rank):
+        self.df_players = pd.DataFrame({'PLAYER_NAME': player_list, 'INITIAL': initial_rank})
+        print(self.df_players)
         self.df_teams = pd.DataFrame(
             [], columns=['ROUND_NUM', 'PLAYER1_ID', 'PLAYER2_ID', 'PLAYER3_ID'])
         self.df_games = pd.DataFrame(
@@ -50,7 +51,7 @@ class TournamentData:
         self.df_players_activity.to_csv(f"{self.path}/players_activity.csv")
 
     def initialize_player_round_activity(self, round_num = None):
-        for player_id, _ in self.df_players.itertuples():
+        for player_id, _, _ in self.df_players.itertuples():
             if round_num == None:
                 self.df_players_activity.loc[f"{player_id}R{0}"] = [
                     0, player_id, True]
@@ -159,11 +160,11 @@ class TournamentData:
 
     def calculate_ranking(self):
         df_ranking = pd.DataFrame([], columns=[
-                                  "PLAYER_NAME", "WINS", "LOSSES", "TIES", "PLAYED_GAMES", "GOALDIFF", "POINTS"])
+                                  "PLAYER_NAME", "WINS", "LOSSES", "TIES", "PLAYED_GAMES", "GOALDIFF", "POINTS", "INITIAL"])
 
         # Initializes the ranking list
-        for player_id, player_name in self.df_players.itertuples():
-            df_ranking.loc[player_id] = [player_name, 0, 0, 0, 0, 0, 0]
+        for player_id, player_name, initial_ranking in self.df_players.itertuples():
+            df_ranking.loc[player_id] = [player_name, 0, 0, 0, 0, 0, 0, initial_ranking]
 
         # Calculates for each game the wins, losses, ties and goaldiff for each member.
         for _, _, team1_id, team2_id, goals_team1, goals_team2 in self.df_games.itertuples():
@@ -195,12 +196,12 @@ class TournamentData:
 
         return df_ranking.sort_values(by=['POINTS', 'GOALDIFF', 'PLAYED_GAMES', 'WINS'], ascending=[False, False, True, False])
 
-    def _load_or_new_tournament(self, player_list=[]):
+    def _load_or_new_tournament(self, player_list=[], initial_rank=[]):
         if os.path.exists(self.path):
             self.load_tournament()
         else:
             os.mkdir(self.path)
-            self.new_tournament(player_list)
+            self.new_tournament(player_list, initial_rank)
 
 
 def _get_result_identifier(goals_team1, goals_team2) -> [str, str]:
