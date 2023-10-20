@@ -3,7 +3,7 @@ import toml
 
 from loadui import CONFIG_FILE
 
-INITIAL_RANK_WEIGHT = 0.122
+INITIAL_RANK_WEIGHT = 0.18
 
 class TournamentLogic:
     def __init__(self, tournament_data: TournamentData):

@@ -62,6 +62,20 @@ class RoundFrame(tk.Frame):
         player2team2['text'] =  "B"
         player3team2['text'] =  "C"
 
+    def set_tba1(self, team_and_label):
+        team, label = team_and_label
+        self.tournament_data.set_player1(team, -1)
+        label.config(text = "SUB (deleted)")
+
+    def set_tba2(self, team_and_label):
+        team, label = team_and_label
+        self.tournament_data.set_player2(team, -1)
+        label.config(text = "SUB (deleted)")
+
+    def set_tba3(self, team_and_label):
+        team, label = team_and_label
+        self.tournament_data.set_player3(team, -1)
+        label.config(text = "SUB (deleted)")
 
     def create_game_row(self, game_id, row=1):
         player1team1 = tk.Label(self.frame, width=15)
@@ -84,6 +98,17 @@ class RoundFrame(tk.Frame):
         player3team2.grid(row=row, column=8)
         applybutton = ttk.Button(self.frame, text="Apply", width=8, command=partial(self.apply, row-1))
         applybutton.grid(row=row, column=9)
+
+        # setting triple click player deletion:
+        team1 = self.tournament_data.get_team1_id(game_id)
+        team2 = self.tournament_data.get_team2_id(game_id)
+        player1team1.bind('<Triple-Button-1>', lambda x:self.set_tba1((team1, player1team1)))
+        player2team1.bind('<Triple-Button-1>', lambda x:self.set_tba2((team1, player2team1)))
+        player3team1.bind('<Triple-Button-1>', lambda x:self.set_tba3((team1, player3team1)))
+        player1team2.bind('<Triple-Button-1>', lambda x:self.set_tba1((team2, player1team2)))
+        player2team2.bind('<Triple-Button-1>', lambda x:self.set_tba2((team2, player2team2)))
+        player3team2.bind('<Triple-Button-1>', lambda x:self.set_tba3((team2, player3team2)))
+
 
         # Loads goals of the game
         goals1, goals2 = self.tournament_data.get_game_result(game_id)
@@ -114,8 +139,12 @@ class RoundFrame(tk.Frame):
                 item.config(state='disabled')
             row[-2].config(text="Edit", command=partial(self.enable_row, i))
 
+    def edit_player(event, self, label):
+        label = tk.Entry(label.config(text = "CHANGED"))
+
     def enable_row(self, row_index):
         row = self.game_rows[row_index]
+        row[0].bind('<Button-1>', lambda x,y:self.edit_player(self, label=row[0]))
         for item in row[:-2]:
             item.config(state='active')
         row[3].config(state='normal')
