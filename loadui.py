@@ -20,7 +20,7 @@ class LoadUI(tk.Tk):
 
         if not os.path.exists(CONFIG_FILE):
             print("did not find config file")
-            config = "[rating]\nwin = 3\ntie = 1\nloss = 0\n\n[mode]\nmode = 'random' # or 'abc'"
+            config = "[rating]\nwin = 3\ntie = 1\nloss = 0\n\n[mode]\nmode = 'abc' # or 'random'"
             with open(CONFIG_FILE, "w") as file:
                 file.write(config)
                 file.close()

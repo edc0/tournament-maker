@@ -1,0 +1,2 @@
+- ABC labels should not appear when game mode is "random"
+- bigger buttons
