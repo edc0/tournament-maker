@@ -1,0 +1,7 @@
+[rating]
+win = 3
+tie = 1
+loss = 0
+
+[mode]
+mode = 'abc'
